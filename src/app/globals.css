@@ -47,7 +47,7 @@
   --radius: 0.625rem;
   --background: #EEEEEE;
   --foreground: #363636;
-  --hover-button: #2A47A3;
+  --button: #2A47A3;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -61,6 +61,8 @@
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
+  --dark-red: #93151F;
+  --error: #E41F2A;
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
