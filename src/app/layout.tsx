@@ -3,9 +3,9 @@ import { Montserrat, Bai_Jamjuree } from "next/font/google";
 import "./globals.css";
 
 const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+   variable: "--font-montserrat",
+   subsets: ["latin"],
+   weight: ["400", "500", "600", "700"],
 });
 
 const baiJamjuree = Bai_Jamjuree({
@@ -15,22 +15,22 @@ const baiJamjuree = Bai_Jamjuree({
 });
 
 export const metadata: Metadata = {
-  title: "Formulário",
-  description: "Desafio técnico para oportunidade de emprego na Santa Casa",
+   title: "Formulário",
+   description: "Desafio técnico para oportunidade de emprego na Santa Casa",
 };
 
 export default function RootLayout({
-  children,
+   children,
 }: Readonly<{
-  children: React.ReactNode;
+   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${montserrat.variable} ${baiJamjuree.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+   return (
+      <html lang="en">
+         <body
+            className={`${montserrat.variable} ${baiJamjuree.variable} antialiased`}
+         >
+            {children}
+         </body>
+      </html>
+   );
 }

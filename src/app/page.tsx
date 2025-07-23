@@ -1,11 +1,11 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ChevronDownIcon } from "lucide-react"
+import { CheckCircle2Icon, ChevronDownIcon } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -32,7 +32,8 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import Header from "@/components/ui/header"
 import Footer from "@/components/ui/footer"
-import clsx from "clsx"
+import { cn } from "@/lib/utils"
+import { Alert, AlertTitle } from "@/components/ui/alert"
 
 const formSchema = z.object({
    name: z.string().min(2, {
@@ -69,25 +70,51 @@ const formSchema = z.object({
 })
 
 export default function Home() {
+   const [showAlert, setShowAlert] = useState(false);
+
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         name: '',
-         email: '',
-         password: '',
-         confirmPassword: '',
-         phone: '',
+         name: "",
+         email: "",
+         password: "",
+         confirmPassword: "",
+         phone: "",
          birthday: undefined,
-         gender: undefined,
+         gender: "",
          terms: false,
       }
    });
 
+   function handleAlert() {
+      setShowAlert(true);
+   }
+   
+   if (showAlert) {
+      setTimeout(() => {
+         setShowAlert(false);
+      }, 3000);
+   }
+
    function onSubmit(formData: z.infer<typeof formSchema>) {
-      if(formData.gender === undefined) {
+      if(!formData.gender) {
          formData.gender = 'prefer-not-to-say';
       }
+
       console.log('Formulário enviado: ', formData);
+      handleAlert();
+
+      // Reset the form after submission
+      form.reset({
+         name: "",
+         email: "",
+         password: "",
+         confirmPassword: "",
+         phone: "",
+         birthday: undefined,
+         gender: "",
+         terms: false,
+      })
    }
 
    function onError(errors: Object) {
@@ -95,15 +122,15 @@ export default function Home() {
    }
 
    return (
-      <div className="flex flex-col justify-between h-screen text-(--foreground) bg-(--background) pt-30 font-sans">
+      <div className="flex flex-col justify-between h-screen text-(--foreground) bg-(--background) font-sans">
          <Header />
-         <div>
+         <div className="flex flex-col px-10 lg:px-20 pt-30">
             <h1 className="text-center text-5xl text-primary font-bold">Cadastro</h1>
-            <p className="text-center text-sm text-(--foreground) mb-4 px-10">
+            <p className="text-center text-sm text-(--foreground) mb-4">
                Preencha o formulário abaixo para se cadastrar
             </p>
             <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit, onError)} className="grid lg:grid-cols-2 gap-4 lg:px-20 px-10 mt-5 items-center">
+               <form onSubmit={form.handleSubmit(onSubmit, onError)} className="grid lg:grid-cols-2 gap-4 mt-5 items-center">
                   <FormField
                      control={form.control}
                      name="name"
@@ -133,6 +160,7 @@ export default function Home() {
                   <FormField
                      control={form.control}
                      name="password"
+                     defaultValue=""
                      render={({ field }) => (
                         <FormItem>
                            <FormLabel className="font-bold">Senha</FormLabel>
@@ -146,6 +174,7 @@ export default function Home() {
                   <FormField
                      control={form.control}
                      name="confirmPassword"
+                     defaultValue=""
                      render={({ field }) => (
                         <FormItem>
                            <FormLabel className="font-bold">Confirmar Senha</FormLabel>
@@ -169,7 +198,7 @@ export default function Home() {
                         </FormItem>
                      )}
                   />
-                  <div className="flex lg:flex-row flex-col gap-4">
+                  <div className="grid lg:grid-cols-2 gap-4">
                      <FormField
                         control={form.control}
                         name="birthday"
@@ -183,8 +212,8 @@ export default function Home() {
                                           variant="default"
                                           id="date"
                                           className={
-                                             clsx(
-                                                "w-48 justify-between font-normal [&_svg:not([class*='text-'])]:text-foreground !bg-white w-full lg:w-fit", (field.value ? "text-foreground" : "text-muted-foreground")
+                                             cn(
+                                                "justify-between font-normal [&_svg:not([class*='text-'])]:text-foreground !bg-white w-full", (field.value ? "text-foreground" : "text-muted-foreground")
                                              )
                                           }
                                        >
@@ -211,6 +240,7 @@ export default function Home() {
                      <FormField
                         control={form.control}
                         name="gender"
+                        defaultValue=""
                         render={({ field }) => (
                            <FormItem>
                               <FormLabel className="font-bold">Gênero</FormLabel>
@@ -263,6 +293,12 @@ export default function Home() {
                   <Button type="submit" className="cursor-pointer" size="lg">CONFIRMAR</Button>
                </form>
             </Form>
+         </div>
+         <div className={cn("h-screen w-screen bg-black/80", (showAlert ? "absolute" : "hidden"))}>
+            <Alert className={cn("items-center w-fit text-(--chart-2) fixed min-w-max left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2")} variant="default">
+               <CheckCircle2Icon />
+               <AlertTitle>Cadastro realizado com sucesso!</AlertTitle>
+            </Alert>
          </div>
          <Footer />
       </div>
