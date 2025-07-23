@@ -130,13 +130,13 @@ export default function Home() {
                Preencha o formulário abaixo para se cadastrar
             </p>
             <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit, onError)} className="grid lg:grid-cols-2 gap-4 mt-5 items-center">
+               <form onSubmit={form.handleSubmit(onSubmit, onError)} className="grid lg:grid-cols-2 gap-4 mt-5 items-start">
                   <FormField
                      control={form.control}
                      name="name"
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel className="font-bold">Nome</FormLabel>
+                           <FormLabel className="font-bold">Nome <span className="text-(--error) font-normal">*</span></FormLabel>
                            <FormControl>
                               <Input type="text" placeholder="Digite seu nome completo" { ...field } />
                            </FormControl>
@@ -149,7 +149,7 @@ export default function Home() {
                      name="email"
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel className="font-bold">E-mail</FormLabel>
+                           <FormLabel className="font-bold">E-mail <span className="text-(--error) font-normal">*</span></FormLabel>
                            <FormControl>
                               <Input type="email" placeholder="Digite seu e-mail" { ...field } />
                            </FormControl>
@@ -163,7 +163,7 @@ export default function Home() {
                      defaultValue=""
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel className="font-bold">Senha</FormLabel>
+                           <FormLabel className="font-bold">Senha <span className="text-(--error) font-normal">*</span></FormLabel>
                            <FormControl>
                               <Input type="password" placeholder="Crie sua senha" { ...field } />
                            </FormControl>
@@ -177,7 +177,7 @@ export default function Home() {
                      defaultValue=""
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel className="font-bold">Confirmar Senha</FormLabel>
+                           <FormLabel className="font-bold">Confirmar Senha <span className="text-(--error) font-normal">*</span></FormLabel>
                            <FormControl>
                               <Input type="password" placeholder="Confirme a senha criada" { ...field } />
                            </FormControl>
@@ -267,7 +267,7 @@ export default function Home() {
                      control={form.control}
                      name="terms"
                      render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="lg:self-center">
                            <div className="flex items-center">
                               <FormControl>
                                  <Checkbox 
@@ -284,6 +284,7 @@ export default function Home() {
                                  >
                                     Li e aceito os Termos de uso
                                  </a>
+                                 <span className="text-(--error) font-normal">*</span>
                               </FormLabel>
                            </div>
                            <FormMessage />
